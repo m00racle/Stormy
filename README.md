@@ -1,0 +1,11 @@
+# Stormy
+This Project Based on Treehouse Course Build a Weather App
+
+The documentation of this project is located in [this Google Doc](https://docs.google.com/document/d/1iSYHBnu4SRSfUDobbdKVxh6cx1Rt2gL8h3__vXmggMU/edit?usp=sharing)
+
+The project is designed to learn about creating a network to connect with external API in accordance to RESTful API.
+The external API is a weather information service Dark Sky and we will use it to build weather app. 
+
+In this early stage we will focus on gathering information about weather in a fixed location (coordinate longitude and latitude)
+to contain the learning outside building geotagging function. This will focus our learning on building necessary system to 
+connect to a RESTful API.
