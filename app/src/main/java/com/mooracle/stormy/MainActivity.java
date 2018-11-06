@@ -3,9 +3,7 @@ package com.mooracle.stormy;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 
 import java.io.IOException;
 
@@ -30,13 +28,25 @@ public class MainActivity extends AppCompatActivity {
         Request request = new Request.Builder()
                 .url(forecastUrl)
                 .build();
-        try {
-            Response response = client.newCall(request).execute();
-            if (response.isSuccessful()){
-                Log.v(TAG, response.body().string());
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
             }
-        } catch (IOException e) {
-            Log.e(TAG, "IO Exception caught: ", e);
-        }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    if (response.isSuccessful()){
+                        Log.v(TAG, response.body().string());
+                    }
+                } catch (IOException e) {
+                    Log.e(TAG, "IO Exception caught: ", e);
+                }
+            }
+        });
+
+        Log.d(TAG, "Main UI code is running");
     }
 }
