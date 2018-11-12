@@ -9,3 +9,5 @@ The external API is a weather information service Dark Sky and we will use it to
 In this early stage we will focus on gathering information about weather in a fixed location (coordinate longitude and latitude)
 to contain the learning outside building geotagging function. This will focus our learning on building necessary system to 
 connect to a RESTful API.
+
+Note : This app also have some drawables to use but not uploaded in GitHub. You can download and drag to res files in Andorid project in this [link](https://treehouse-code-samples.s3.amazonaws.com/Android_Build_A_Weather_App_v2.zip)
