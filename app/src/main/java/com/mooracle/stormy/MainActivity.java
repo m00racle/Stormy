@@ -75,10 +75,12 @@ public class MainActivity extends AppCompatActivity {
         currentWeather.setHumidity(currently.getDouble("humidity"));
         currentWeather.setTime(currently.getLong("time"));
         currentWeather.setIcon(currently.getString("icon"));
-        currentWeather.setLocationLabel("Alcatrax Island, California");
+        currentWeather.setLocationLabel("Alcatraz Island, California");
         currentWeather.setPercipChance(currently.getDouble("precipProbability"));
         currentWeather.setSummary(currently.getString("summary"));
         currentWeather.setTemperature(currently.getDouble("temperature"));
+        currentWeather.setTimeZone(timezone);
+        Log.d(TAG, currentWeather.getFormattedTime());
         return currentWeather;
     }
 
