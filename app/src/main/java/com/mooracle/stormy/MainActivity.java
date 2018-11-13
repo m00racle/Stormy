@@ -3,12 +3,12 @@ package com.mooracle.stormy;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 import okhttp3.*;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-   public static final String TAG = MainActivity.class.getSimpleName();
+   private static final String TAG = MainActivity.class.getSimpleName();
 
    //building Current Weather
     private CurrentWeather currentWeather;
@@ -45,15 +45,18 @@ public class MainActivity extends AppCompatActivity {
 
             client.newCall(request).enqueue(new Callback() {
                 @Override
-                public void onFailure(Call call, IOException e) {
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
+                public void onResponse(@NonNull Call call, @NonNull Response response) {
 
                     try {
-                        String jsonData = response.body().string();
+                        String jsonData = null;
+                        if (response.body() != null) {
+                            jsonData = response.body().string();
+                        }
                         Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
                             currentWeather = getCurrentDetails(jsonData);
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         String timezone = forecast.getString("timezone");
         Log.i(TAG, "From JSON: " + timezone);
         JSONObject currently = forecast.getJSONObject("currently");
-        CurrentWeather currentWeather = new CurrentWeather();
+        currentWeather = new CurrentWeather();
         currentWeather.setHumidity(currently.getDouble("humidity"));
         currentWeather.setTime(currently.getLong("time"));
         currentWeather.setIcon(currently.getString("icon"));
@@ -90,23 +93,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean isNetworkAvailable() {
-        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-
         boolean isAvailable = false;
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if (manager != null) {
+            networkInfo = manager.getActiveNetworkInfo();
+        }
+
         if (networkInfo != null && networkInfo.isConnected()){
             isAvailable = true;
         } else {
             /*Toast.makeText(this, R.string.network_unavailable_message,
                     Toast.LENGTH_LONG).show();*/
             NetworkDialogFragment networkDialogFragment = new NetworkDialogFragment();
-            networkDialogFragment.show(getFragmentManager(),"network unavailable");
+            networkDialogFragment.showNow(getSupportFragmentManager(),"network unavailable");
         }
         return isAvailable;
     }
 
     private void alertUserAboutError() {
         AlertDialogFragment dialog = new AlertDialogFragment();
-        dialog.show(getFragmentManager(), "error dialog");
+        dialog.showNow(getSupportFragmentManager(), "error dialog");
     }
 }
