@@ -13,3 +13,7 @@ connect to a RESTful API.
 Note : This app also have some drawables to use but not uploaded in GitHub. You can download and drag to res files in Andorid project in this [link](https://treehouse-code-samples.s3.amazonaws.com/Android_Build_A_Weather_App_v2.zip)
 Update: I decided to upload the drawables bin into the GitHub just to make it practical since I plan to change 
 workstation.
+
+Update: We updated the Android Support to the latest implementation 'com.android.support:appcompat-v7:28.0.0'
+we assume this is the latest version of android support API 28. So far we found no errors in the design page unlike the 
+previous 28.0.0 which must be altered to 28.0.alpha. 
