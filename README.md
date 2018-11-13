@@ -17,3 +17,6 @@ workstation.
 Update: We updated the Android Support to the latest implementation 'com.android.support:appcompat-v7:28.0.0'
 we assume this is the latest version of android support API 28. So far we found no errors in the design page unlike the 
 previous 28.0.0 which must be altered to 28.0.alpha. 
+
+Update: We trace back to implementation 'com.android.support:appcompat-v7:28.0.0-alpha1' since the latest sync on gradle
+proves the problem on rendering the xml design activity page is still persist.

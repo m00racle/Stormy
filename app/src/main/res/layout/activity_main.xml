@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="100"
+        android:text="@string/default_temperature_value"
         android:textColor="@android:color/white"
         android:textSize="150sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,7 +28,8 @@
         android:layout_marginTop="35dp"
         app:layout_constraintStart_toEndOf="@+id/temperatureValue"
         app:layout_constraintTop_toTopOf="@+id/temperatureValue"
-        app:srcCompat="@drawable/degree" />
+        app:srcCompat="@drawable/degree"
+        android:contentDescription="@string/degree_icon_desc" />
 
     <TextView
         android:id="@+id/timeValue"
@@ -37,7 +38,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="At 5:00 PM it will "
+        android:text="@string/default_time_value"
         android:textColor="@color/half_white"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/temperatureValue"
@@ -51,7 +52,7 @@
         android:layout_marginBottom="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Alcatraz Island, California"
+        android:text="@string/default_location_value"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/timeValue"
@@ -67,7 +68,8 @@
         android:layout_marginStart="32dp"
         app:layout_constraintBottom_toBottomOf="@+id/locationValue"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/cloudy_night" />
+        app:srcCompat="@drawable/cloudy_night"
+        android:contentDescription="@string/icon_image_view_desc" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelineOne"
@@ -91,7 +93,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:paddingTop="15dp"
-        android:text="humidity"
+        android:text="@string/humidity_label"
         android:textColor="@color/half_white"
         app:layout_constraintEnd_toStartOf="@+id/guidelineOne"
         app:layout_constraintStart_toStartOf="@+id/guidelineOne"
@@ -103,7 +105,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:text="0.88"
+        android:text="@string/humidity_default_value"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/humidityLabel"
@@ -118,7 +120,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:paddingTop="15dp"
-        android:text="Rain/Snow?"
+        android:text="@string/percip_label"
         android:textColor="@color/half_white"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -131,7 +133,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="70%"
+        android:text="@string/default_percip_value"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/percipLabel"
@@ -145,11 +147,25 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Stormy with a chance of meatballs"
+        android:text="@string/default_summary_value"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/percipValue" />
+
+    <TextView
+        android:id="@+id/darkSkyAttribution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/dark_sky_message"
+        android:textColor="@color/half_white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
