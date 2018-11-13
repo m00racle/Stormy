@@ -11,3 +11,5 @@ to contain the learning outside building geotagging function. This will focus ou
 connect to a RESTful API.
 
 Note : This app also have some drawables to use but not uploaded in GitHub. You can download and drag to res files in Andorid project in this [link](https://treehouse-code-samples.s3.amazonaws.com/Android_Build_A_Weather_App_v2.zip)
+Update: I decided to upload the drawables bin into the GitHub just to make it practical since I plan to change 
+workstation.
