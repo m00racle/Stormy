@@ -15,6 +15,23 @@ public class CurrentWeather {
     private String summary;
     private String timeZone;
 
+    //constructors
+
+    public CurrentWeather() {
+    }
+
+    public CurrentWeather(String locationLabel, String icon, long time, double temperature,
+                          double humidity, double percipChance, String summary, String timeZone) {
+        this.locationLabel = locationLabel;
+        this.icon = icon;
+        this.time = time;
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.percipChance = percipChance;
+        this.summary = summary;
+        this.timeZone = timeZone;
+    }
+
     // getters and setters
     public String getTimeZone() {
         return timeZone;
