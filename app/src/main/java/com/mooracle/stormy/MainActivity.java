@@ -2,13 +2,17 @@ package com.mooracle.stormy;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.mooracle.stormy.databinding.ActivityMainBinding;
 import okhttp3.*;
@@ -21,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
    private static final String TAG = MainActivity.class.getSimpleName();
 
-   //building Current Weather
-    private CurrentWeather currentWeather;
+   private CurrentWeather currentWeather;
+   public ImageView iconImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final ActivityMainBinding binding = DataBindingUtil.setContentView(MainActivity.this,
                 R.layout.activity_main);
+        iconImageView = findViewById(R.id.iconImageView);
 
         TextView darkSky = findViewById(R.id.darkSkyAttribution);
         darkSky.setMovementMethod(LinkMovementMethod.getInstance());
@@ -64,13 +69,22 @@ public class MainActivity extends AppCompatActivity {
                         Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
                             currentWeather = getCurrentDetails(jsonData);
-                            CurrentWeather displayWeather = new CurrentWeather(
+                            final CurrentWeather displayWeather = new CurrentWeather(
                                     currentWeather.getLocationLabel(), currentWeather.getIcon(),
                                     currentWeather.getTime(), currentWeather.getTemperature(),
                                     currentWeather.getHumidity(), currentWeather.getPercipChance(),
                                     currentWeather.getSummary(),currentWeather.getTimeZone()
                             );
                             binding.setWeather(displayWeather);
+                            runOnUiThread(new Runnable() {
+                                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                                @Override
+                                public void run() {
+                                    Drawable drawable = getResources().getDrawable(displayWeather.getIconId(),null);
+                                    iconImageView.setImageDrawable(drawable);
+                                }
+                            });
+
                         } else {
                             alertUserAboutError();
                         }
