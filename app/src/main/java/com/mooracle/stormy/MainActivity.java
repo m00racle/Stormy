@@ -1,14 +1,22 @@
 package com.mooracle.stormy;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.mooracle.stormy.databinding.ActivityMainBinding;
 import okhttp3.*;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,20 +27,30 @@ public class MainActivity extends AppCompatActivity {
 
    private static final String TAG = MainActivity.class.getSimpleName();
 
-   //building Current Weather
-    private CurrentWeather currentWeather;
+   private CurrentWeather currentWeather;
+   public ImageView iconImageView;
+
+    private double latitude = 37.8267;
+    private double longitude = -122.4233;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getForecast(latitude, longitude);
+    }
+
+    private void getForecast(double latitude, double longitude) {
         setContentView(R.layout.activity_main);
+        final ActivityMainBinding binding = DataBindingUtil.setContentView(MainActivity.this,
+                R.layout.activity_main);
+        iconImageView = findViewById(R.id.iconImageView);
 
         TextView darkSky = findViewById(R.id.darkSkyAttribution);
         darkSky.setMovementMethod(LinkMovementMethod.getInstance());
 
         String apiKey = "545ef8a2ce431db1078ae75d9a13b954";
-        double latitude = 37.8267;
-        double longitude = -122.4233;
+
         String forecastUrl = "https://api.darksky.net/forecast/"
                 + apiKey + "/"
                 + latitude + ","
@@ -60,6 +78,22 @@ public class MainActivity extends AppCompatActivity {
                         Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
                             currentWeather = getCurrentDetails(jsonData);
+                            final CurrentWeather displayWeather = new CurrentWeather(
+                                    currentWeather.getLocationLabel(), currentWeather.getIcon(),
+                                    currentWeather.getTime(), currentWeather.getTemperature(),
+                                    currentWeather.getHumidity(), currentWeather.getPercipChance(),
+                                    currentWeather.getSummary(),currentWeather.getTimeZone()
+                            );
+                            binding.setWeather(displayWeather);
+                            runOnUiThread(new Runnable() {
+                                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                                @Override
+                                public void run() {
+                                    Drawable drawable = getResources().getDrawable(displayWeather.getIconId(),null);
+                                    iconImageView.setImageDrawable(drawable);
+                                }
+                            });
+
                         } else {
                             alertUserAboutError();
                         }
@@ -114,5 +148,10 @@ public class MainActivity extends AppCompatActivity {
     private void alertUserAboutError() {
         AlertDialogFragment dialog = new AlertDialogFragment();
         dialog.showNow(getSupportFragmentManager(), "error dialog");
+    }
+
+    public void refershOnClick(View view){
+        getForecast(latitude, longitude);
+        Toast.makeText(this,"Refreshing Data", Toast.LENGTH_SHORT).show();
     }
 }
