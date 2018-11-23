@@ -1,10 +1,12 @@
-package com.mooracle.stormy;
+package com.mooracle.stormy.Weather;
+
+import com.mooracle.stormy.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class CurrentWeather {
+public class Current {
     //define fields variables
     private String locationLabel;
     private String icon;
@@ -17,11 +19,11 @@ public class CurrentWeather {
 
     //constructors
 
-    public CurrentWeather() {
+    public Current() {
     }
 
-    public CurrentWeather(String locationLabel, String icon, long time, double temperature,
-                          double humidity, double percipChance, String summary, String timeZone) {
+    public Current(String locationLabel, String icon, long time, double temperature,
+                   double humidity, double percipChance, String summary, String timeZone) {
         this.locationLabel = locationLabel;
         this.icon = icon;
         this.time = time;
