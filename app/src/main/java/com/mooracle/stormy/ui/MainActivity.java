@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.mooracle.stormy.R;
 import com.mooracle.stormy.databinding.ActivityMainBinding;
-import com.mooracle.stormy.Weather.Current;
+import com.mooracle.stormy.weather.Current;
 import okhttp3.*;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         dialog.showNow(getSupportFragmentManager(), "error dialog");
     }
 
-    public void refershOnClick(View view){
+    public void refreshOnClick(View view){
         getForecast(latitude, longitude);
         Toast.makeText(this,"Refreshing Data", Toast.LENGTH_SHORT).show();
     }

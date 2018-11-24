@@ -1,4 +1,4 @@
-package com.mooracle.stormy.Weather;
+package com.mooracle.stormy.weather;
 
 import com.mooracle.stormy.R;
 
