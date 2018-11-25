@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.mooracle.stormy.R;
 import com.mooracle.stormy.databinding.ActivityMainBinding;
 import com.mooracle.stormy.weather.Current;
+import com.mooracle.stormy.weather.Forecast;
 import okhttp3.*;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
    private static final String TAG = MainActivity.class.getSimpleName();
 
-   private Current current;
+   private Forecast forecast;
    public ImageView iconImageView;
 
     private double latitude = 37.8267;
@@ -79,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                         Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
-                            current = getCurrentDetails(jsonData);
+                            forecast = parseForecastData(jsonData);
+                            Current current = forecast.getCurrent();
                             final Current displayWeather = new Current(
                                     current.getLocationLabel(), current.getIcon(),
                                     current.getTime(), current.getTemperature(),
@@ -110,12 +112,18 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "Main UI code is running");
     }
 
+    private Forecast parseForecastData(String jsonData) throws JSONException {
+        Forecast forecast = new Forecast();
+        forecast.setCurrent(getCurrentDetails(jsonData));
+        return forecast;
+    }
+
     private Current getCurrentDetails(String jsonData) throws JSONException {
         JSONObject forecast = new JSONObject(jsonData);
         String timezone = forecast.getString("timezone");
         Log.i(TAG, "From JSON: " + timezone);
         JSONObject currently = forecast.getJSONObject("currently");
-        current = new Current();
+        Current current = new Current();
         current.setHumidity(currently.getDouble("humidity"));
         current.setTime(currently.getLong("time"));
         current.setIcon(currently.getString("icon"));
