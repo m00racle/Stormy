@@ -20,7 +20,9 @@ import com.mooracle.stormy.R;
 import com.mooracle.stormy.databinding.ActivityMainBinding;
 import com.mooracle.stormy.weather.Current;
 import com.mooracle.stormy.weather.Forecast;
+import com.mooracle.stormy.weather.Hour;
 import okhttp3.*;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -115,7 +117,28 @@ public class MainActivity extends AppCompatActivity {
     private Forecast parseForecastData(String jsonData) throws JSONException {
         Forecast forecast = new Forecast();
         forecast.setCurrent(getCurrentDetails(jsonData));
+        forecast.setHourlyForecast(getHourlyForecast(jsonData));
         return forecast;
+    }
+
+    private Hour[] getHourlyForecast(String jsonData) throws JSONException {
+        JSONObject forecast = new JSONObject(jsonData);
+        String timezone = forecast.getString("timezone");
+        Log.i(TAG, "From hourly: " + timezone);
+        JSONObject hourly = forecast.getJSONObject("hourly");
+        JSONArray data = hourly.getJSONArray("data");
+        Hour[] hours = new Hour[data.length()]; // initiate Hour array called hours
+        // TODO: iterate all data JSONArray to fetch all data for each Hour
+        for (int i = 0; i < data.length(); i++){
+            JSONObject hourData = data.getJSONObject(i);
+            hours[i] = new Hour();
+            hours[i].setTime(hourData.getLong("time"));
+            hours[i].setTimeZone(timezone);
+            hours[i].setIcon(hourData.getString("icon"));
+            hours[i].setSummary(hourData.getString("summary"));
+            hours[i].setTemperature(hourData.getDouble("temperature"));
+        }
+        return hours;
     }
 
     private Current getCurrentDetails(String jsonData) throws JSONException {
