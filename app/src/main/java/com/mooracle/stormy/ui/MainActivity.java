@@ -1,4 +1,4 @@
-package com.mooracle.stormy;
+package com.mooracle.stormy.ui;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -16,8 +16,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.mooracle.stormy.R;
 import com.mooracle.stormy.databinding.ActivityMainBinding;
+import com.mooracle.stormy.weather.Current;
+import com.mooracle.stormy.weather.Forecast;
+import com.mooracle.stormy.weather.Hour;
 import okhttp3.*;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
    private static final String TAG = MainActivity.class.getSimpleName();
 
-   private CurrentWeather currentWeather;
+   private Forecast forecast;
    public ImageView iconImageView;
 
     private double latitude = 37.8267;
@@ -77,12 +82,13 @@ public class MainActivity extends AppCompatActivity {
                         }
                         Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
-                            currentWeather = getCurrentDetails(jsonData);
-                            final CurrentWeather displayWeather = new CurrentWeather(
-                                    currentWeather.getLocationLabel(), currentWeather.getIcon(),
-                                    currentWeather.getTime(), currentWeather.getTemperature(),
-                                    currentWeather.getHumidity(), currentWeather.getPercipChance(),
-                                    currentWeather.getSummary(),currentWeather.getTimeZone()
+                            forecast = parseForecastData(jsonData);
+                            Current current = forecast.getCurrent();
+                            final Current displayWeather = new Current(
+                                    current.getLocationLabel(), current.getIcon(),
+                                    current.getTime(), current.getTemperature(),
+                                    current.getHumidity(), current.getPercipChance(),
+                                    current.getSummary(), current.getTimeZone()
                             );
                             binding.setWeather(displayWeather);
                             runOnUiThread(new Runnable() {
@@ -108,22 +114,51 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "Main UI code is running");
     }
 
-    private CurrentWeather getCurrentDetails(String jsonData) throws JSONException {
+    private Forecast parseForecastData(String jsonData) throws JSONException {
+        Forecast forecast = new Forecast();
+        forecast.setCurrent(getCurrentDetails(jsonData));
+        forecast.setHourlyForecast(getHourlyForecast(jsonData));
+        return forecast;
+    }
+
+    private Hour[] getHourlyForecast(String jsonData) throws JSONException {
+        JSONObject forecast = new JSONObject(jsonData);
+        String timezone = forecast.getString("timezone");
+
+        JSONObject hourly = forecast.getJSONObject("hourly");
+        JSONArray data = hourly.getJSONArray("data");
+        Hour[] hours = new Hour[data.length()]; // initiate Hour array called hours
+        // iterate all data JSONArray to fetch all data for each Hour
+        for (int i = 0; i < data.length(); i++){
+            JSONObject hourData = data.getJSONObject(i);
+
+            hours[i] = new Hour();
+
+            hours[i].setTime(hourData.getLong("time"));
+            hours[i].setTimeZone(timezone);
+            hours[i].setIcon(hourData.getString("icon"));
+            hours[i].setSummary(hourData.getString("summary"));
+            hours[i].setTemperature(hourData.getDouble("temperature"));
+        }
+        return hours;
+    }
+
+    private Current getCurrentDetails(String jsonData) throws JSONException {
         JSONObject forecast = new JSONObject(jsonData);
         String timezone = forecast.getString("timezone");
         Log.i(TAG, "From JSON: " + timezone);
         JSONObject currently = forecast.getJSONObject("currently");
-        currentWeather = new CurrentWeather();
-        currentWeather.setHumidity(currently.getDouble("humidity"));
-        currentWeather.setTime(currently.getLong("time"));
-        currentWeather.setIcon(currently.getString("icon"));
-        currentWeather.setLocationLabel("Alcatraz Island, California");
-        currentWeather.setPercipChance(currently.getDouble("precipProbability"));
-        currentWeather.setSummary(currently.getString("summary"));
-        currentWeather.setTemperature(currently.getDouble("temperature"));
-        currentWeather.setTimeZone(timezone);
-        Log.d(TAG, currentWeather.getFormattedTime());
-        return currentWeather;
+        Current current = new Current();
+        current.setHumidity(currently.getDouble("humidity"));
+        current.setTime(currently.getLong("time"));
+        current.setIcon(currently.getString("icon"));
+        current.setLocationLabel("Alcatraz Island, California");
+        current.setPercipChance(currently.getDouble("precipProbability"));
+        current.setSummary(currently.getString("summary"));
+        current.setTemperature(currently.getDouble("temperature"));
+        current.setTimeZone(timezone);
+        Log.d(TAG, current.getFormattedTime());
+        return current;
     }
 
     private boolean isNetworkAvailable() {
@@ -150,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
         dialog.showNow(getSupportFragmentManager(), "error dialog");
     }
 
-    public void refershOnClick(View view){
+    public void refreshOnClick(View view){
         getForecast(latitude, longitude);
         Toast.makeText(this,"Refreshing Data", Toast.LENGTH_SHORT).show();
     }
