@@ -16,4 +16,5 @@
     <string name="default_percip_value">N/A</string>
     <string name="default_summary_value">Weather info currently unavailable</string>
     <string name="degree_icon_desc">degree icon image view</string>
+    <string name="refresh_button">refresh button</string>
 </resources>
