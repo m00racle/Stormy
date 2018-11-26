@@ -124,14 +124,16 @@ public class MainActivity extends AppCompatActivity {
     private Hour[] getHourlyForecast(String jsonData) throws JSONException {
         JSONObject forecast = new JSONObject(jsonData);
         String timezone = forecast.getString("timezone");
-        Log.i(TAG, "From hourly: " + timezone);
+
         JSONObject hourly = forecast.getJSONObject("hourly");
         JSONArray data = hourly.getJSONArray("data");
         Hour[] hours = new Hour[data.length()]; // initiate Hour array called hours
-        // TODO: iterate all data JSONArray to fetch all data for each Hour
+        // iterate all data JSONArray to fetch all data for each Hour
         for (int i = 0; i < data.length(); i++){
             JSONObject hourData = data.getJSONObject(i);
+
             hours[i] = new Hour();
+
             hours[i].setTime(hourData.getLong("time"));
             hours[i].setTimeZone(timezone);
             hours[i].setIcon(hourData.getString("icon"));
