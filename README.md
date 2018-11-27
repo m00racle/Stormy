@@ -20,3 +20,7 @@ previous 28.0.0 which must be altered to 28.0.alpha.
 
 Update: We trace back to implementation 'com.android.support:appcompat-v7:28.0.0-alpha1' since the latest sync on gradle
 proves the problem on rendering the xml design activity page is still persist.
+
+For the second course [Android Lists and Adapters](https://teamtreehouse.com/library/android-lists-and-adapters-2)
+we use different [Google Doc as Documentation](https://docs.google.com/document/d/1mkhAP9DvB8Vbmr0gvy73wThuiA7pPikp7x0Z_aazET0/edit?usp=sharing)
+please check this out from Entry 19: Adding New Data Model Object
