@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="appBackground">#0073d2</color>
     <color name="half_white">#80ffffff</color>
+    <color name="transparentWhite">#40ffffff</color>
 </resources>
