@@ -1,6 +1,7 @@
 package com.mooracle.stormy.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -188,5 +189,11 @@ public class MainActivity extends AppCompatActivity {
     public void refreshOnClick(View view){
         getForecast(latitude, longitude);
         Toast.makeText(this,"Refreshing Data", Toast.LENGTH_SHORT).show();
+    }
+
+    public void hourlyOnClick(View view){
+        //Switch to HourlyForecastActivity
+        Intent intent = new Intent(this, HourlyForecastActivity.class);
+        startActivity(intent);
     }
 }
