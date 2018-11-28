@@ -24,7 +24,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
 
-            android:text="@{hour.time}"
+            android:text="@{String.valueOf(hour.time)}"
             tools:text="12 PM"
             android:textColor="@android:color/white"
             android:textSize="24sp"/>
