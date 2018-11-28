@@ -21,4 +21,5 @@
     <string name="refresh_button">refresh button</string>
     <string name="hourly_forecast_button_text">HOURLY FORECAST</string>
     <string name="title_activity_hourly_forecast">HourlyForecastActivity</string>
+    <string name="icon_for_recycler_content_desc">icon for recycler content</string>
 </resources>
