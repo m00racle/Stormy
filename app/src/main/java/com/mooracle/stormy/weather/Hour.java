@@ -1,5 +1,9 @@
 package com.mooracle.stormy.weather;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 public class Hour {
     private long time;
     private String summary;
@@ -20,8 +24,19 @@ public class Hour {
     }
 
     //getters and setters:
-    public long getTime() {
-        return time;
+    public String getTime() {
+        // instantiate new date time formatter called formatter with format hour and AM/PM (ex: 12 AM)
+        SimpleDateFormat formatter = new SimpleDateFormat("h a");
+
+        //set the timezone to avoid auto utilization of GMT
+        TimeZone zone = TimeZone.getTimeZone(timeZone);
+        formatter.setTimeZone(zone);
+
+        //convert time into milliseconds:
+        Date dateTime = new Date(time*1000);
+
+        //return the formatted time:
+        return formatter.format(dateTime);
     }
 
     public void setTime(long time) {
@@ -36,16 +51,17 @@ public class Hour {
         this.summary = summary;
     }
 
-    public double getTemperature() {
-        return temperature;
+    public int getTemperature() {
+        return (int)Math.round(temperature);
     }
 
     public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 
-    public String getIcon() {
-        return icon;
+    public int getIcon() {
+        //return int from the Forecast.getIconId method by passing the String icon parameter:
+        return Forecast.getIconId(icon);
     }
 
     public void setIcon(String icon) {

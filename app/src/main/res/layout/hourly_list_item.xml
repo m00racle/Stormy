@@ -36,7 +36,8 @@
 
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/timeLabel"
-                app:srcCompat="@drawable/partly_cloudy"
+                app:imageResource = "@{hour.icon}"
+                tools:src="@drawable/fog"
                 android:contentDescription="@string/icon_for_recycler_content_desc"/>
 
         <TextView
