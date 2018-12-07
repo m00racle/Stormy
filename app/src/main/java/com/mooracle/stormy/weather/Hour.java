@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class Hour {
+public class Hour {//todo: implement serializable
     private long time;
     private String summary;
     private double temperature;

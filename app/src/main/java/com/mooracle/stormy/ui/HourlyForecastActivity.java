@@ -22,6 +22,7 @@ public class HourlyForecastActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hourly_forecast);
+        //todo: get the serialized hour data from intent
 
         //set binding
         binding = DataBindingUtil.setContentView(this, R.layout.activity_hourly_forecast);
@@ -33,7 +34,7 @@ public class HourlyForecastActivity extends AppCompatActivity {
         binding.hourlyListItems.setAdapter(adapter);
         binding.hourlyListItems.setLayoutManager(new LinearLayoutManager(this));
     }
-
+//todo: delete this method
     private List<Hour> getHourData() {
         List<Hour> hours = new ArrayList<>();
 

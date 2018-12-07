@@ -195,5 +195,6 @@ public class MainActivity extends AppCompatActivity {
         //Switch to HourlyForecastActivity
         Intent intent = new Intent(this, HourlyForecastActivity.class);
         startActivity(intent);
+        //todo: put a list of hours as extra and put it inside intent
     }
 }
