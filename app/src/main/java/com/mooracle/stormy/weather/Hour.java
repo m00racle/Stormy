@@ -1,10 +1,11 @@
 package com.mooracle.stormy.weather;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class Hour {//todo: implement serializable
+public class Hour implements Serializable {//: implement serializable
     private long time;
     private String summary;
     private double temperature;
