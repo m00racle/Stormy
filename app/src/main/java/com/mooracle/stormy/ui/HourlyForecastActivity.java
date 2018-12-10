@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import com.mooracle.stormy.R;
@@ -29,6 +30,12 @@ public class HourlyForecastActivity extends AppCompatActivity {
         List<Hour> hourList = (List<Hour>) intent.getSerializableExtra("HourlyList");
         //set binding
         binding = DataBindingUtil.setContentView(this, R.layout.activity_hourly_forecast);
+
+        //set fixed size with the binding
+        binding.hourlyListItems.setHasFixedSize(true);
+
+        //add dividing lines decoration to the list:
+        binding.hourlyListItems.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         //set adapter
         adapter = new HourlyAdapter(hourList, this);
