@@ -28,6 +28,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -194,6 +197,11 @@ public class MainActivity extends AppCompatActivity {
     public void hourlyOnClick(View view){
         //Switch to HourlyForecastActivity
         Intent intent = new Intent(this, HourlyForecastActivity.class);
+
+        //put a list of hours as extra and put it inside intent
+        List<Hour> hours = Arrays.asList(forecast.getHourlyForecast());
+        intent.putExtra("HourlyList", (Serializable) hours);
+
         startActivity(intent);
     }
 }
