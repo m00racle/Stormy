@@ -61,42 +61,9 @@ public class Current {
     }
 
     public int getIconId(){
-        int iconId;
-        switch (icon){
-            case "clear-day":
-                iconId = R.drawable.clear_day;
-                break;
-            case "clear-night":
-                iconId = R.drawable.clear_night;
-                break;
-            case "rain":
-                iconId  = R.drawable.rain;
-                break;
-            case "snow":
-                iconId = R.drawable.snow;
-                break;
-            case "sleet":
-                iconId = R.drawable.sleet;
-                break;
-            case "wind":
-                iconId = R.drawable.wind;
-                break;
-            case "fog":
-                iconId = R.drawable.fog;
-                break;
-            case "cloudy":
-                iconId = R.drawable.cloudy;
-                break;
-            case "partly-cloudy-day":
-                iconId = R.drawable.partly_cloudy;
-                break;
-            case "partly-cloudy-night":
-                iconId = R.drawable.cloudy_night;
-                break;
-                default:
-                    iconId = R.drawable.clear_day;
-        }
-        return iconId;
+        // the switch statements are moved to Forecast class thus we can get it from there
+        return Forecast.getIconId(icon);
+        //Note that we can directly called Forecast with no instatiation because it is Static method!
     }
 
     public long getTime() {
