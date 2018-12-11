@@ -2,7 +2,6 @@ package com.mooracle.stormy.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -18,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.mooracle.stormy.R;
-import com.mooracle.stormy.databinding.ActivityMainBinding;
 import com.mooracle.stormy.weather.Current;
 import com.mooracle.stormy.weather.Forecast;
 import com.mooracle.stormy.weather.Hour;
@@ -97,7 +95,8 @@ public class MainActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             forecast = parseForecastData(jsonData);
                             final Current current = forecast.getCurrent();
-                            /*final Current displayWeather = new Current(
+                            /*TODO: CLEAN THIS:
+                            final Current displayWeather = new Current(
                                     current.getLocationLabel(), current.getIcon(),
                                     current.getTime(), current.getTemperature(),
                                     current.getHumidity(), current.getPercipChance(),
@@ -109,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                                 @Override
-                                public void run() {
+                                public void run() {//TODO: fix these Strings  concatenate to be field and variables outside
                                     Drawable drawable = getResources().getDrawable(current.getIconId(),null);
                                     iconImageView.setImageDrawable(drawable);
                                     temperatureTextView.setText(String.valueOf(Math.round(current.getTemperature())));
