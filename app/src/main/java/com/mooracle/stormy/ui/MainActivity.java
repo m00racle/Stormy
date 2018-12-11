@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
    private Forecast forecast;
    public ImageView iconImageView;
+   public TextView temperatureTextView, timeTextView, humidityTextView, percipTextView, summaryTextView;
 
     private double latitude = 37.8267;
     private double longitude = -122.4233;
@@ -51,9 +52,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void getForecast(double latitude, double longitude) {
         setContentView(R.layout.activity_main);
-        final ActivityMainBinding binding = DataBindingUtil.setContentView(MainActivity.this,
-                R.layout.activity_main);
+        /*final ActivityMainBinding binding = DataBindingUtil.setContentView(MainActivity.this,
+                R.layout.activity_main);*/ //TODO: DISABLE THIS
+
+        //initiate all views:
         iconImageView = findViewById(R.id.iconImageView);
+        temperatureTextView = findViewById(R.id.temperatureValue);
+        timeTextView = findViewById(R.id.timeValue);
+        humidityTextView = findViewById(R.id.humidityValue);
+        percipTextView = findViewById(R.id.percipValue);
+        summaryTextView = findViewById(R.id.summaryValue);
+
 
         TextView darkSky = findViewById(R.id.darkSkyAttribution);
         darkSky.setMovementMethod(LinkMovementMethod.getInstance());
@@ -87,20 +96,28 @@ public class MainActivity extends AppCompatActivity {
                         Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
                             forecast = parseForecastData(jsonData);
-                            Current current = forecast.getCurrent();
-                            final Current displayWeather = new Current(
+                            final Current current = forecast.getCurrent();
+                            /*final Current displayWeather = new Current(
                                     current.getLocationLabel(), current.getIcon(),
                                     current.getTime(), current.getTemperature(),
                                     current.getHumidity(), current.getPercipChance(),
                                     current.getSummary(), current.getTimeZone()
-                            );
-                            binding.setWeather(displayWeather);
+                            );*/
+                            //binding.setWeather(displayWeather); <- TODO: disable this
+
+                            //push data to views main thread:
                             runOnUiThread(new Runnable() {
                                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                                 @Override
                                 public void run() {
-                                    Drawable drawable = getResources().getDrawable(displayWeather.getIconId(),null);
+                                    Drawable drawable = getResources().getDrawable(current.getIconId(),null);
                                     iconImageView.setImageDrawable(drawable);
+                                    temperatureTextView.setText(String.valueOf(Math.round(current.getTemperature())));
+                                    timeTextView.setText("At " + current.getFormattedTime() + " it will be:");
+                                    humidityTextView.setText(String.valueOf(current.getHumidity()));
+                                    percipTextView.setText(String.valueOf(Math.round(current.getPercipChance()*100))
+                                    + "%");
+                                    summaryTextView.setText(current.getSummary());
                                 }
                             });
 
