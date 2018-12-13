@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout  xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-    <data>
-        <variable
-            name="weather"
-            type="com.mooracle.stormy.weather.Current"/>
-    </data>
+
 <android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/appBackground"
@@ -18,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="@{weather.summary != null ? String.valueOf(Math.round(weather.temperature)) : @string/default_temperature_value, default=@string/default_temperature_value}"
+        android:text="@string/default_temperature_value"
         android:textColor="@android:color/white"
         android:textSize="150sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -44,7 +40,7 @@
             android:layout_marginBottom="24dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:text="@{weather.formattedTime != null ? `At ` + weather.formattedTime + ` it will be` : @string/default_time_value, default=@string/default_time_value}"
+            android:text="@string/default_time_value"
             android:textColor="@color/half_white"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/temperatureValue"
@@ -111,7 +107,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:text="@{weather.summary != null ? String.valueOf(weather.humidity) : @string/humidity_default_value, default=@string/humidity_default_value}"
+        android:text="@string/humidity_default_value"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/humidityLabel"
@@ -139,7 +135,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@{weather.summary != null ? String.valueOf(Math.round(weather.percipChance*100)) + `%` : @string/default_percip_value, default=@string/default_percip_value}"
+        android:text="@string/default_percip_value"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/percipLabel"
@@ -153,7 +149,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@{weather.summary ?? @string/default_summary_value, default=@string/default_summary_value}"
+        android:text="@string/default_summary_value"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -204,4 +200,3 @@
             android:onClick="hourlyOnClick"/>
 
 </android.support.constraint.ConstraintLayout>
-</layout>

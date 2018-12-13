@@ -1,13 +1,14 @@
 package com.mooracle.stormy.adapters;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import com.mooracle.stormy.R;
-import com.mooracle.stormy.databinding.HourlyListItemBinding;
 import com.mooracle.stormy.weather.Hour;
 
 import java.util.List;
@@ -28,17 +29,21 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder
     @NonNull
     @Override
     public HourlyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        HourlyListItemBinding binding = DataBindingUtil
-                .inflate(LayoutInflater.from(viewGroup.getContext()),
-                        R.layout.hourly_list_item,
-                        viewGroup, false);
-        return new ViewHolder(binding);
+        //use Layout inflater to make space for views
+        View itemView = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.hourly_list_item, viewGroup, false);
+        return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Hour hour = hours.get(i);
-        viewHolder.hourlyListItemBinding.setHour(hour);
+
+        //ASSIGNS views to proper values
+        viewHolder.iconImageView.setImageResource(hour.getIcon());
+        viewHolder.temperatureTextView.setText(String.valueOf(hour.getTemperature()));
+        viewHolder.timeTextView.setText(hour.getTime());
+        viewHolder.summaryTextView.setText(hour.getSummary());
     }
 
     @Override
@@ -47,13 +52,20 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        //Binding
-        public HourlyListItemBinding hourlyListItemBinding;
+
+        //view list:
+        ImageView iconImageView;
+        TextView temperatureTextView, timeTextView, summaryTextView;
 
         //constructor
-        public ViewHolder(HourlyListItemBinding hourlyLayoutBinding){
-            super(hourlyLayoutBinding.getRoot());
-            hourlyListItemBinding = hourlyLayoutBinding;
+        public ViewHolder(View view){
+            super(view);
+
+            //assign views:
+            iconImageView = view.findViewById(R.id.iconImageView);
+            temperatureTextView = view.findViewById(R.id.temperatureLabel);
+            timeTextView = view.findViewById(R.id.timeLabel);
+            summaryTextView = view.findViewById(R.id.summaryLabel);
         }
     }
 }

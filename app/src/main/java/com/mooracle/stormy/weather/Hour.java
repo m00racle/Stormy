@@ -1,11 +1,13 @@
 package com.mooracle.stormy.weather;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class Hour implements Serializable {//: implement serializable
+public class Hour implements Parcelable {//: implement parcelable
     private long time;
     private String summary;
     private double temperature;
@@ -23,6 +25,26 @@ public class Hour implements Serializable {//: implement serializable
         this.icon = icon;
         this.timeZone = timeZone;
     }
+
+    protected Hour(Parcel in) {
+        time = in.readLong();
+        summary = in.readString();
+        temperature = in.readDouble();
+        icon = in.readString();
+        timeZone = in.readString();
+    }
+
+    public static final Creator<Hour> CREATOR = new Creator<Hour>() {
+        @Override
+        public Hour createFromParcel(Parcel in) {
+            return new Hour(in);
+        }
+
+        @Override
+        public Hour[] newArray(int size) {
+            return new Hour[size];
+        }
+    };
 
     //getters and setters:
     public String getTime() {
@@ -75,5 +97,19 @@ public class Hour implements Serializable {//: implement serializable
 
     public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(time);
+        dest.writeString(summary);
+        dest.writeDouble(temperature);
+        dest.writeString(icon);
+        dest.writeString(timeZone);
     }
 }

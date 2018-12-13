@@ -2,7 +2,6 @@ package com.mooracle.stormy.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -18,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.mooracle.stormy.R;
-import com.mooracle.stormy.databinding.ActivityMainBinding;
 import com.mooracle.stormy.weather.Current;
 import com.mooracle.stormy.weather.Forecast;
 import com.mooracle.stormy.weather.Hour;
@@ -28,9 +26,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
    private Forecast forecast;
    public ImageView iconImageView;
+   private TextView temperatureTextView, timeTextView, humidityTextView, percipTextView, summaryTextView;
 
     private double latitude = 37.8267;
     private double longitude = -122.4233;
@@ -51,9 +49,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void getForecast(double latitude, double longitude) {
         setContentView(R.layout.activity_main);
-        final ActivityMainBinding binding = DataBindingUtil.setContentView(MainActivity.this,
-                R.layout.activity_main);
+
+        //initiate all views:
         iconImageView = findViewById(R.id.iconImageView);
+        temperatureTextView = findViewById(R.id.temperatureValue);
+        timeTextView = findViewById(R.id.timeValue);
+        humidityTextView = findViewById(R.id.humidityValue);
+        percipTextView = findViewById(R.id.percipValue);
+        summaryTextView = findViewById(R.id.summaryValue);
+
 
         TextView darkSky = findViewById(R.id.darkSkyAttribution);
         darkSky.setMovementMethod(LinkMovementMethod.getInstance());
@@ -87,20 +91,23 @@ public class MainActivity extends AppCompatActivity {
                         Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
                             forecast = parseForecastData(jsonData);
-                            Current current = forecast.getCurrent();
-                            final Current displayWeather = new Current(
-                                    current.getLocationLabel(), current.getIcon(),
-                                    current.getTime(), current.getTemperature(),
-                                    current.getHumidity(), current.getPercipChance(),
-                                    current.getSummary(), current.getTimeZone()
-                            );
-                            binding.setWeather(displayWeather);
+                            final Current current = forecast.getCurrent();
+
+
+                            //push data to views main thread:
                             runOnUiThread(new Runnable() {
                                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                                 @Override
                                 public void run() {
-                                    Drawable drawable = getResources().getDrawable(displayWeather.getIconId(),null);
+                                    Drawable drawable = getResources().getDrawable(current.getIconId(),null);
+                                    String formattedTime = "At " + current.getFormattedTime() + " it will be:";
+                                    String percip = Math.round(current.getPercipChance()*100) + "%";
                                     iconImageView.setImageDrawable(drawable);
+                                    temperatureTextView.setText(String.valueOf(Math.round(current.getTemperature())));
+                                    timeTextView.setText(formattedTime);
+                                    humidityTextView.setText(String.valueOf(current.getHumidity()));
+                                    percipTextView.setText(percip);
+                                    summaryTextView.setText(current.getSummary());
                                 }
                             });
 
@@ -199,8 +206,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HourlyForecastActivity.class);
 
         //put a list of hours as extra and put it inside intent
-        List<Hour> hours = Arrays.asList(forecast.getHourlyForecast());
-        intent.putExtra("HourlyList", (Serializable) hours);
+        //NOTE we need to change this into ArrayList this is how to convert Array ([]) to ArrayList:
+        ArrayList<Hour> hours = new ArrayList<>(Arrays.asList(forecast.getHourlyForecast()));
+
+        intent.putParcelableArrayListExtra("HourlyList", hours);
 
         startActivity(intent);
     }
