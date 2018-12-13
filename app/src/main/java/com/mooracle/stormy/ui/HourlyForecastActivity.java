@@ -16,7 +16,7 @@ import java.util.List;
 public class HourlyForecastActivity extends AppCompatActivity {
     //add adapter and binding variables
     private HourlyAdapter adapter;
-    //private ActivityHourlyForecastBinding binding;
+
     private RecyclerView recyclerView;
 
     @Override
@@ -25,10 +25,11 @@ public class HourlyForecastActivity extends AppCompatActivity {
         setContentView(R.layout.activity_hourly_forecast);
         recyclerView = findViewById(R.id.hourlyListItems);
 
-        //get the serialized hour data from intent
+        //get the intent
         Intent intent = getIntent();
-        // TODO: fix this casting warnings!
-        List<Hour> hourList = (List<Hour>) intent.getSerializableExtra("HourlyList");
+
+        //get List of parcelable from intent
+        List<Hour> hourList = intent.getParcelableArrayListExtra("HourlyList");
 
        //set adapter and bind it to recycler view
         adapter = new HourlyAdapter(hourList, this);

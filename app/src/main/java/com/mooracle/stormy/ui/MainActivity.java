@@ -26,9 +26,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -207,8 +206,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HourlyForecastActivity.class);
 
         //put a list of hours as extra and put it inside intent
-        List<Hour> hours = Arrays.asList(forecast.getHourlyForecast());
-        intent.putExtra("HourlyList", (Serializable) hours);
+        //NOTE we need to change this into ArrayList this is how to convert Array ([]) to ArrayList:
+        ArrayList<Hour> hours = new ArrayList<>(Arrays.asList(forecast.getHourlyForecast()));
+
+        intent.putParcelableArrayListExtra("HourlyList", hours);
 
         startActivity(intent);
     }
