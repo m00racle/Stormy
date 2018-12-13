@@ -3,6 +3,7 @@ package com.mooracle.stormy.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import com.mooracle.stormy.R;
@@ -34,6 +35,10 @@ public class HourlyForecastActivity extends AppCompatActivity {
        //set adapter and bind it to recycler view
         adapter = new HourlyAdapter(hourList, this);
         recyclerView.setAdapter(adapter);
+
+        //optimize the recyclerView performance:
+        recyclerView.setHasFixedSize(true); //<-set the size of the List in recyclerView has fixed size to save memory
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         //set layout manager and put it into recyclerView
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
