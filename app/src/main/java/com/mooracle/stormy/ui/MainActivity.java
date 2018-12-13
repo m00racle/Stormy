@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
    private Forecast forecast;
    public ImageView iconImageView;
-   public TextView temperatureTextView, timeTextView, humidityTextView, percipTextView, summaryTextView;
+   private TextView temperatureTextView, timeTextView, humidityTextView, percipTextView, summaryTextView;
 
     private double latitude = 37.8267;
     private double longitude = -122.4233;
@@ -50,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void getForecast(double latitude, double longitude) {
         setContentView(R.layout.activity_main);
-        /*final ActivityMainBinding binding = DataBindingUtil.setContentView(MainActivity.this,
-                R.layout.activity_main);*/ //TODO: DISABLE THIS
 
         //initiate all views:
         iconImageView = findViewById(R.id.iconImageView);
@@ -95,27 +93,21 @@ public class MainActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             forecast = parseForecastData(jsonData);
                             final Current current = forecast.getCurrent();
-                            /*TODO: CLEAN THIS:
-                            final Current displayWeather = new Current(
-                                    current.getLocationLabel(), current.getIcon(),
-                                    current.getTime(), current.getTemperature(),
-                                    current.getHumidity(), current.getPercipChance(),
-                                    current.getSummary(), current.getTimeZone()
-                            );*/
-                            //binding.setWeather(displayWeather); <- TODO: disable this
+
 
                             //push data to views main thread:
                             runOnUiThread(new Runnable() {
                                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                                 @Override
-                                public void run() {//TODO: fix these Strings  concatenate to be field and variables outside
+                                public void run() {
                                     Drawable drawable = getResources().getDrawable(current.getIconId(),null);
+                                    String formattedTime = "At " + current.getFormattedTime() + " it will be:";
+                                    String percip = Math.round(current.getPercipChance()*100) + "%";
                                     iconImageView.setImageDrawable(drawable);
                                     temperatureTextView.setText(String.valueOf(Math.round(current.getTemperature())));
-                                    timeTextView.setText("At " + current.getFormattedTime() + " it will be:");
+                                    timeTextView.setText(formattedTime);
                                     humidityTextView.setText(String.valueOf(current.getHumidity()));
-                                    percipTextView.setText(String.valueOf(Math.round(current.getPercipChance()*100))
-                                    + "%");
+                                    percipTextView.setText(percip);
                                     summaryTextView.setText(current.getSummary());
                                 }
                             });

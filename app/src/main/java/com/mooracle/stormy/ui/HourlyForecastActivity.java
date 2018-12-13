@@ -9,6 +9,7 @@ import com.mooracle.stormy.R;
 import com.mooracle.stormy.adapters.HourlyAdapter;
 import com.mooracle.stormy.weather.Hour;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,23 +28,7 @@ public class HourlyForecastActivity extends AppCompatActivity {
         //get the serialized hour data from intent
         Intent intent = getIntent();
         // TODO: fix this casting warnings!
-        List<Hour> hourList = (ArrayList<Hour>) intent.getSerializableExtra("HourlyList");
-       /* TODO: CLEAN THIS UP (this comment block)
-       //set binding
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_hourly_forecast);
-
-        //set fixed size with the binding
-        binding.hourlyListItems.setHasFixedSize(true);
-
-        //add dividing lines decoration to the list:
-        binding.hourlyListItems.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-
-        //set adapter
-        adapter = new HourlyAdapter(hourList, this);
-
-        //binding with hourly list items
-        binding.hourlyListItems.setAdapter(adapter);
-        binding.hourlyListItems.setLayoutManager(new LinearLayoutManager(this));*/
+        List<Hour> hourList = (List<Hour>) intent.getSerializableExtra("HourlyList");
 
        //set adapter and bind it to recycler view
         adapter = new HourlyAdapter(hourList, this);
